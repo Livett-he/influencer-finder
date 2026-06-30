@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>艺人推荐引擎 · Celebrity Finder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --bg-hover: #22262e;
+            --border: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent: #58a6ff;
+            --accent-hover: #79b8ff;
+            --red: #f85149;
+            --green: #3fb950;
+            --orange: #d29922;
+            --purple: #bc8cff;
+            --pink: #f778ba;
+            --radius: 10px;
+            --shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; }
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .btn {
+            padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-primary); font-size: 13px;
+            cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center;
+            gap: 6px; font-family: inherit;
+        }
+        .btn:hover { background: var(--bg-hover); border-color: var(--accent); }
+        .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .btn-primary:hover { background: var(--accent-hover); }
+
+        /* ===== Data Notice Banner ===== */
+        .data-notice {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8px 24px 0;
+        }
+        .data-notice-inner {
+            background: rgba(210,153,34,0.08);
+            border: 1px solid rgba(210,153,34,0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== Search Section ===== */
+        .search-section { max-width: 1200px; margin: 0 auto; padding: 24px 24px 16px; }
+        .search-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+        .search-subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+        .search-box { display: flex; gap: 10px; margin-bottom: 16px; }
+        .search-input {
+            flex: 1; padding: 12px 18px; border-radius: var(--radius); border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-primary); font-size: 15px; outline: none;
+            transition: border-color 0.2s; font-family: inherit;
+        }
+        .search-input:focus { border-color: var(--accent); }
+        .search-input::placeholder { color: var(--text-muted); }
+
+        /* ===== Category Tabs ===== */
+        .category-tabs {
+            display: flex; gap: 4px; margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .cat-tab {
+            padding: 10px 18px; border: none; background: transparent; color: var(--text-secondary);
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+            border-bottom: 2px solid transparent; border-radius: 0; position: relative; bottom: -1px;
+            font-family: inherit; display: flex; align-items: center; gap: 6px;
+        }
+        .cat-tab:hover { color: var(--text-primary); }
+        .cat-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .cat-tab .tab-count {
+            font-size: 11px; padding: 1px 6px; border-radius: 10px;
+            background: var(--bg-card); color: var(--text-muted); font-weight: 500;
+        }
+        .cat-tab.active .tab-count { background: rgba(88,166,255,0.15); color: var(--accent); }
+
+        /* ===== Filters ===== */
+        .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .filter-group { display: flex; align-items: center; gap: 6px; }
+        .filter-label { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+        .filter-select {
+            padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-primary); font-size: 13px; cursor: pointer;
+            outline: none; font-family: inherit; transition: border-color 0.2s;
+        }
+        .filter-select:focus { border-color: var(--accent); }
+        .filter-select option { background: var(--bg-secondary); }
+
+        .sort-group { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+        .sort-btn {
+            padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-secondary); font-size: 12px;
+            cursor: pointer; transition: all 0.2s; font-family: inherit; white-space: nowrap;
+        }
+        .sort-btn:hover { background: var(--bg-hover); }
+        .sort-btn.active { background: rgba(88,166,255,0.15); color: var(--accent); border-color: var(--accent); }
+
+        /* ===== Quick Search Chips ===== */
+        .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .chip {
+            padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-secondary); font-size: 13px;
+            cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .chip:hover { border-color: var(--accent); color: var(--accent); background: rgba(88,166,255,0.08); }
+        .chip.active { background: rgba(88,166,255,0.15); color: var(--accent); border-color: var(--accent); }
+
+        /* ===== Tag Filter Panel ===== */
+        .tag-filter-panel {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+            margin-bottom: 16px; overflow: hidden;
+        }
+        .tag-filter-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 16px; cursor: pointer; user-select: none;
+        }
+        .tag-filter-header:hover { background: var(--bg-hover); }
+        .tag-filter-title { font-size: 13px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
+        .tag-filter-count { font-size: 11px; padding: 1px 8px; border-radius: 10px; background: rgba(88,166,255,0.15); color: var(--accent); font-weight: 600; }
+        .tag-filter-toggle { font-size: 12px; color: var(--text-muted); transition: transform 0.2s; }
+        .tag-filter-panel.active .tag-filter-toggle { transform: rotate(180deg); }
+        .tag-filter-body { display: none; padding: 0 16px 14px; max-height: 480px; overflow-y: auto; }
+        .tag-filter-panel.active .tag-filter-body { display: block; }
+        .tag-filter-group { margin-bottom: 12px; }
+        .tag-filter-group:last-child { margin-bottom: 0; }
+        .tag-filter-group-title { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        .tag-filter-group-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag-filter-btn {
+            padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border);
+            background: var(--bg-secondary); color: var(--text-secondary); font-size: 12px;
+            cursor: pointer; transition: all 0.15s; font-family: inherit; white-space: nowrap;
+        }
+        .tag-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .tag-filter-btn.active { background: rgba(88,166,255,0.15); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+        .tag-clear-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; padding: 2px 8px; border-radius: 4px; transition: all 0.15s; }
+        .tag-clear-btn:hover { color: var(--red); background: rgba(248,81,73,0.08); }
+
+        /* ===== Stats Bar ===== */
+        .stats-bar {
+            display: flex; gap: 24px; padding: 14px 18px; background: var(--bg-card);
+            border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .stats-item { display: flex; flex-direction: column; }
+        .stats-item .num { font-size: 22px; font-weight: 700; }
+        .stats-item .label { font-size: 11px; color: var(--text-muted); }
+        .stats-divider { width: 1px; background: var(--border); }
+
+        /* ===== Results ===== */
+        .results-section { max-width: 1200px; margin: 0 auto; padding: 20px 24px 60px; }
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .results-count { font-size: 14px; color: var(--text-secondary); }
+        .results-count strong { color: var(--text-primary); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px; }
+
+        /* ===== Load More ===== */
+        .load-more {
+            text-align: center; padding: 24px;
+        }
+        .load-more-btn {
+            padding: 12px 36px; border-radius: var(--radius); border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-primary); font-size: 14px;
+            cursor: pointer; transition: all 0.2s; font-family: inherit; font-weight: 600;
+        }
+        .load-more-btn:hover { background: var(--bg-hover); border-color: var(--accent); color: var(--accent); }
+        .load-more-info { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+        /* ===== Card ===== */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 18px; transition: all 0.2s; cursor: pointer;
+        }
+        .card:hover { border-color: var(--accent); background: var(--bg-hover); transform: translateY(-2px); box-shadow: var(--shadow); }
+        .card-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+        .card-avatar {
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 22px; flex-shrink: 0; font-weight: 700;
+        }
+        .card-info { flex: 1; min-width: 0; }
+        .card-name {
+            font-size: 16px; font-weight: 600; margin-bottom: 2px;
+            display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+        }
+        .gender-badge { font-size: 11px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+        .gender-badge.male { background: rgba(88,166,255,0.15); color: var(--accent); }
+        .gender-badge.female { background: rgba(247,120,186,0.15); color: var(--pink); }
+        .region-badge { font-size: 10px; padding: 1px 6px; border-radius: 4px; background: rgba(139,148,158,0.1); color: var(--text-secondary); }
+        .card-sub { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .card-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-stats { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+        .stat-item { display: flex; flex-direction: column; }
+        .stat-value { font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 4px; }
+        .stat-label { font-size: 11px; color: var(--text-muted); }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+        .tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(88,166,255,0.1); color: var(--accent); border: 1px solid rgba(88,166,255,0.2); }
+        .tag.work { background: rgba(63,185,80,0.1); color: var(--green); border-color: rgba(63,185,80,0.2); }
+        .card-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border); }
+        .card-bottom-label { font-size: 13px; color: var(--text-muted); }
+        .risk-badge { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+        .risk-badge.low { background: rgba(63,185,80,0.15); color: var(--green); }
+        .risk-badge.medium { background: rgba(210,153,34,0.15); color: var(--orange); }
+        .risk-badge.high { background: rgba(248,81,73,0.15); color: var(--red); }
+        .match-score { font-size: 12px; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+        .match-score.high { background: rgba(63,185,80,0.15); color: var(--green); }
+        .match-score.medium { background: rgba(210,153,34,0.15); color: var(--orange); }
+        .match-score.low { background: rgba(139,148,158,0.15); color: var(--text-secondary); }
+
+        /* ===== Score Bar ===== */
+        .score-bar { width: 60px; height: 5px; border-radius: 3px; background: var(--border); overflow: hidden; margin-top: 2px; }
+        .score-bar-fill { height: 100%; border-radius: 3px; }
+
+        /* ===== Tooltip ===== */
+        .tooltip-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text-muted);
+            color: var(--text-muted); font-size: 10px; cursor: help; position: relative;
+        }
+        .tooltip-icon:hover { border-color: var(--accent); color: var(--accent); }
+        .tooltip-text {
+            display: none; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px;
+            padding: 10px 14px; font-size: 11px; color: var(--text-secondary); white-space: normal;
+            width: 220px; z-index: 300; line-height: 1.5; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .tooltip-icon:hover .tooltip-text { display: block; }
+
+        /* ===== Empty State ===== */
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .empty-state-icon { font-size: 48px; margin-bottom: 12px; }
+
+        /* ===== Detail Panel ===== */
+        .detail-panel {
+            display: none; position: fixed; top: 0; right: 0; width: 440px; max-width: 100%;
+            height: 100vh; background: var(--bg-secondary); border-left: 1px solid var(--border);
+            z-index: 150; overflow-y: auto; padding: 24px; box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+        }
+        .detail-panel.active { display: block; }
+        .detail-close {
+            position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+            border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card);
+            color: var(--text-primary); cursor: pointer; font-size: 16px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .detail-close:hover { background: var(--bg-hover); }
+        .detail-header { display: flex; gap: 14px; margin-bottom: 20px; align-items: center; }
+        .detail-avatar { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 700; }
+        .detail-section { margin-bottom: 20px; }
+        .detail-section-title { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .detail-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .detail-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .detail-stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
+        .detail-stat-box .stat-value { font-size: 20px; justify-content: center; }
+        .detail-stat-box .stat-label { font-size: 11px; margin-top: 2px; }
+        .detail-stat-box .score-bar { width: 80%; margin: 4px auto 0; }
+        .detail-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; background: var(--bg-card); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
+        .detail-risk { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+        .detail-risk-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .detail-risk-row:last-child { margin-bottom: 0; }
+
+        /* ===== Modal ===== */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6); z-index: 200; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 14px; padding: 28px; max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .modal-text { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.7; }
+        .modal-code { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-size: 12px; font-family: "SF Mono", Consolas, monospace; color: var(--text-secondary); white-space: pre-wrap; word-break: break-all; margin-bottom: 16px; max-height: 200px; overflow-y: auto; }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+        .file-input { display: none; }
+
+        /* ===== Search Loading ===== */
+        .search-loading { display: none; text-align: center; padding: 40px 20px; }
+        .search-loading.active { display: block; }
+        .search-spinner {
+            width: 40px; height: 40px; border: 3px solid var(--border);
+            border-top-color: var(--accent); border-radius: 50%;
+            margin: 0 auto 12px; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .search-loading-text { font-size: 13px; color: var(--text-secondary); }
+
+        /* ===== Card Enter Animation ===== */
+        @keyframes cardEnter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .card { animation: cardEnter 0.3s ease-out backwards; }
+
+        /* ===== Result Count Pulse ===== */
+        @keyframes countPulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .results-count.pulse { animation: countPulse 0.4s ease-out; }
+
+        /* ===== Match Reasons ===== */
+        .match-reasons { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+        .match-reason { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(63,185,80,0.1); color: var(--green); border: 1px solid rgba(63,185,80,0.2); }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 640px) {
+            .card-grid { grid-template-columns: 1fr; }
+            .filters { flex-direction: column; align-items: flex-start; }
+            .sort-group { margin-left: 0; }
+            .detail-panel { width: 100%; }
+            .search-title { font-size: 18px; }
+            .category-tabs { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<div class="header">
+    <div class="header-inner">
+        <div class="logo">
+            <div class="logo-icon">⭐</div>
+            <span>艺人推荐引擎</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn" onclick="openImportModal()">📥 导入数据</button>
+            <button class="btn" onclick="exportTemplate()">📋 导出模板</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Data Notice ===== -->
+<div class="data-notice">
+    <div class="data-notice-inner">
+        <span>ℹ️</span>
+        <span>数据基于公开信息整理（维基百科、豆瓣、微博等），热度/认知度为综合评估值非实时数据。部分数据通过维基百科API自动抓取。数据更新时间：2025年6月。</span>
+    </div>
+</div>
+
+<!-- ===== Search Section ===== -->
+<div class="search-section">
+    <div class="search-title">找到最适合你活动的艺人</div>
+    <div class="search-subtitle">输入单个关键词如"漂亮""搞笑""年轻""体育"，或点击下方标签精确筛选 <strong id="totalCountText"></strong> 位艺人</div>
+    <div class="search-box">
+        <input type="text" class="search-input" id="searchInput" placeholder="输入关键词：漂亮 / 搞笑 / 年轻 / 体育 / 古装..." oninput="handleSearch()">
+    </div>
+
+    <!-- Quick Search Chips -->
+    <div class="quick-chips" id="quickChips"></div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs" id="categoryTabs"></div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <div class="filter-group">
+            <span class="filter-label">性别</span>
+            <select class="filter-select" id="genderFilter" onchange="handleSearch()">
+                <option value="">全部</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">地域</span>
+            <select class="filter-select" id="regionFilter" onchange="handleSearch()">
+                <option value="">全部</option>
+                <option value="内地">内地</option>
+                <option value="港台">港台</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">认知度</span>
+            <select class="filter-select" id="recognitionFilter" onchange="handleSearch()">
+                <option value="">全部</option>
+                <option value="90-100">90+（国民级）</option>
+                <option value="80-89">80-89（高认知）</option>
+                <option value="60-79">60-79（中等）</option>
+                <option value="0-59">60以下（新兴）</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">年龄</span>
+            <select class="filter-select" id="ageFilter" onchange="handleSearch()">
+                <option value="">全部</option>
+                <option value="0-25">25岁以下</option>
+                <option value="26-35">26-35岁</option>
+                <option value="36-45">36-45岁</option>
+                <option value="46-55">46-55岁</option>
+                <option value="56-99">55岁以上</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">风险</span>
+            <select class="filter-select" id="riskFilter" onchange="handleSearch()">
+                <option value="">全部</option>
+                <option value="低">低风险</option>
+                <option value="中">中风险</option>
+                <option value="高">高风险</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">粉丝量</span>
+            <select class="filter-select" id="followersFilter" onchange="handleSearch()">
+                <option value="">全部</option>
+                <option value="10000000+">1000万+</option>
+                <option value="5000000-9999999">500-1000万</option>
+                <option value="1000000-4999999">100-500万</option>
+                <option value="500000-999999">50-100万</option>
+                <option value="0-499999">50万以下</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">职业</span>
+            <select class="filter-select" id="professionFilter" onchange="handleSearch()">
+                <option value="">全部</option>
+                <option value="演员">演员</option>
+                <option value="歌手">歌手</option>
+                <option value="偶像">偶像</option>
+                <option value="主持人">主持人</option>
+                <option value="喜剧演员">喜剧演员</option>
+                <option value="脱口秀演员">脱口秀演员</option>
+                <option value="说唱歌手">说唱歌手</option>
+                <option value="运动员">运动员</option>
+                <option value="导演">导演</option>
+                <option value="模特">模特</option>
+            </select>
+        </div>
+        <div class="sort-group">
+            <span class="filter-label">排序</span>
+            <button class="sort-btn active" data-sort="heat" onclick="switchSort('heat')">🔥 热度</button>
+            <button class="sort-btn" data-sort="recognition" onclick="switchSort('recognition')">⭐ 认知度</button>
+            <button class="sort-btn" data-sort="followers" onclick="switchSort('followers')">👥 粉丝量</button>
+            <button class="sort-btn" data-sort="match" onclick="switchSort('match')" id="sortMatch" style="display:none">🎯 契合度</button>
+        </div>
+    </div>
+
+    <!-- Tag Filter Panel -->
+    <div class="tag-filter-panel" id="tagFilterPanel">
+        <div class="tag-filter-header" onclick="toggleTagFilter()">
+            <div class="tag-filter-title">
+                🏷️ 标签筛选（可多选）
+                <span class="tag-filter-count" id="tagFilterCount" style="display:none">0</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <span class="tag-clear-btn" id="tagClearBtn" style="display:none" onclick="event.stopPropagation();clearTagFilter()">清除</span>
+                <span class="tag-filter-toggle" id="tagFilterToggle">▼</span>
+            </div>
+        </div>
+        <div class="tag-filter-body" id="tagFilterBody"></div>
+    </div>
+</div>
+
+<!-- ===== Results ===== -->
+<div class="results-section">
+    <div class="stats-bar" id="statsBar"></div>
+    <div class="results-header">
+        <div class="results-count" id="resultsCount"></div>
+    </div>
+    <div class="search-loading" id="searchLoading">
+        <div class="search-spinner"></div>
+        <div class="search-loading-text">正在智能匹配中...</div>
+    </div>
+    <div class="card-grid" id="cardGrid"></div>
+    <div class="load-more" id="loadMore" style="display:none">
+        <button class="load-more-btn" onclick="loadMore()">加载更多</button>
+        <div class="load-more-info" id="loadMoreInfo"></div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none">
+        <div class="empty-state-icon">🔍</div>
+        <div style="font-size:14px;color:var(--text-muted)">没有找到匹配的艺人，试试调整关键词或筛选条件</div>
+    </div>
+</div>
+
+<!-- ===== Import Modal ===== -->
+<div class="modal-overlay" id="importModal">
+    <div class="modal">
+        <div class="modal-title">导入艺人数据</div>
+        <div class="modal-text">支持 JSON 格式导入。导入后将替换当前数据。点击"导出模板"可获取完整格式参考。</div>
+        <div class="modal-code" id="templateCode"></div>
+        <div class="modal-actions">
+            <button class="btn" onclick="closeImportModal()">取消</button>
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+        </div>
+        <input type="file" class="file-input" id="fileInput" accept=".json" onchange="handleFileImport(event)">
+    </div>
+</div>
+
+<!-- ===== Detail Panel ===== -->
+<div class="detail-panel" id="detailPanel">
+    <button class="detail-close" onclick="closeDetail()">✕</button>
+    <div id="detailContent"></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+// ===== State =====
+let allData = [...CELEBRITY_DATA];
+let currentResults = [];
+let currentCategory = '';
+let currentSort = 'heat';
+let displayCount = 0;
+const PAGE_SIZE = 30;
+let searchTimer = null;
+let selectedTags = new Set();
+
+const AVATAR_COLORS = [
+    ['#f778ba','#bc8cff'], ['#58a6ff','#3fb950'], ['#d29922','#f85149'],
+    ['#3fb950','#58a6ff'], ['#bc8cff','#f778ba'], ['#f85149','#d29922'],
+    ['#79b8ff','#bc8cff'], ['#56d364','#d29922']
+];
+
+// Quick search chips - single words only
+const QUICK_SEARCHES = [
+    '漂亮', '帅气', '年轻', '搞笑', '性感', '实力派',
+    '国民度', '国际范', '综艺感', '古装', '童星', '学霸',
+    '东北', '港风', '阳光', '清纯', '御姐', '硬汉',
+    '偶像', '低调', '励志', '争议性', '古典美', '高级感'
+];
+
+// Category tabs with precise match functions
+const CATEGORIES = [
+    { key: '', label: '🌟 全部', match: () => true },
+    { key: '演员', label: '🎬 演员', match: d => d.professions.includes('演员') },
+    { key: '歌手', label: '🎤 歌手', match: d => d.professions.some(p => ['歌手','音乐人','作曲家','作词人'].includes(p)) },
+    { key: '偶像', label: '✨ 偶像', match: d => d.professions.includes('偶像') },
+    { key: '主持人', label: '📺 主持人', match: d => d.professions.some(p => ['主持人','播音员'].includes(p)) },
+    { key: '模特', label: '💃 模特', match: d => d.professions.includes('模特') },
+    { key: '导演', label: '🎥 导演', match: d => d.professions.some(p => ['导演','编剧','制片人'].includes(p)) },
+    { key: '脱口秀', label: '🎙️ 脱口秀', match: d => d.professions.some(p => p.includes('脱口秀')) },
+    { key: '喜剧', label: '😂 喜剧', match: d => d.professions.some(p => p.includes('喜剧') || p.includes('相声')) },
+    { key: '体育', label: '🏆 体育', match: d => d.professions.includes('运动员') },
+    { key: '说唱', label: '🎧 说唱', match: d => d.professions.some(p => p.includes('说唱')) },
+    { key: '舞者', label: '💫 舞者', match: d => d.professions.includes('舞者') },
+];
+
+// Tag dimensions - global for search and filter
+const TAG_DIMENSIONS = {
+    '人设风格': ['实力派','偶像派','流量','顶流','国民度','国际范','搞笑','综艺感','低调','话题性','争议性','接地气','高级感','少年感','草根','励志','叛逆','逆袭','回忆杀','个性','亲和力','才华'],
+    '外貌气质': ['漂亮','帅气','甜美','清新','清纯','性感','知性','文艺','优雅','气质','御姐','阳光','硬汉','可爱','酷飒','仙气','清冷','温婉','霸气','温柔','慵懒','忧郁','古典美','花美男','中性','邻家','气场','混血','异域风情','辨识度','颜值','时尚','英气','灵动','俏皮','高冷','复古','成熟'],
+    '出身背景': ['童星','星二代','网红','学霸','高学历','网络','抖音'],
+    '喜剧/脱口秀': ['喜剧','脱口秀','相声','小品','二人转','段子手','漫才'],
+    '音乐风格': ['说唱','摇滚','民谣','爵士','R&B','OST','电子','唱跳','创作','创作型','高音','才女','才子'],
+    '影视类型': ['古装','武侠','仙侠','正剧','TVB','央视','老戏骨','影帝','影后','票房','演技','口碑','经典'],
+    '地域风格': ['东北','港风','日系','韩流','欧美'],
+    '舞蹈/才艺': ['舞蹈','全能','模特'],
+    '体育': ['乒乓球','羽毛球','游泳','跳水','田径','足球','滑雪','速滑','花样滑冰','篮球','排球','体操','网球','射击','拳击','跆拳道','自行车','台球','围棋','电竞','高尔夫','格斗','奥运冠军'],
+};
+
+// Search synonyms - expand search terms to related concepts
+const SEARCH_SYNONYMS = {
+    '搞笑': ['搞笑','喜剧','脱口秀','综艺感','段子手'],
+    '喜剧': ['喜剧','小品','二人转','相声'],
+    '体育': ['运动员'],
+    '体育明星': ['运动员'],
+    '综艺': ['综艺感','主持人'],
+};
+
+// Profession keyword mapping for search query parsing
+const PROFESSION_KEYWORDS = {
+    '演员': '演员', '歌手': '歌手', '音乐人': '音乐人', '模特': '模特',
+    '偶像': '偶像', '主持': '主持人', '主持人': '主持人',
+    '导演': '导演', '编剧': '编剧', '舞者': '舞者',
+    '脱口秀': '脱口秀', '说唱': '说唱', '说唱歌手': '说唱',
+    '运动员': '运动员', '体育': '运动员', '体育明星': '运动员',
+    'rapper': '说唱', 'Rapper': '说唱',
+    '喜剧演员': '喜剧', '相声': '相声',
+    '综艺': '综艺', '网红': '网红',
+};
+
+const GENDER_MAP = {
+    '女': '女', '女星': '女', '女演员': '女', '女艺人': '女', '女歌手': '女',
+    '女模特': '女', '女神': '女', '美女': '女', '女孩': '女', '女性': '女',
+    '男': '男', '男星': '男', '男演员': '男', '男艺人': '男', '男歌手': '男',
+    '男模特': '男', '帅哥': '男', '男孩': '男', '男性': '男'
+};
+
+const REGION_MAP = {
+    '内地': '内地', '大陆': '内地', '港台': '港台', '香港': '港台', '台湾': '港台'
+};
+
+// ===== Init =====
+function init() {
+    renderCategoryTabs();
+    renderQuickChips();
+    renderStatsBar();
+    renderTagFilter();
+    handleSearch();
+    document.getElementById('templateCode').textContent = JSON.stringify([allData[0]], null, 2);
+    document.getElementById('totalCountText').textContent = allData.length;
+}
+
+function toggleTagFilter() {
+    const panel = document.getElementById('tagFilterPanel');
+    panel.classList.toggle('active');
+    if (panel.classList.contains('active')) {
+        renderTagFilter();
+    }
+}
+
+function renderTagFilter() {
+    const container = document.getElementById('tagFilterBody');
+    if (!container) return;
+    
+    const tagCounts = {};
+    CELEBRITY_DATA.forEach(c => {
+        (c.styles || []).forEach(tag => {
+            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+        });
+    });
+    
+    const groups = {};
+    for (const [dim, tags] of Object.entries(TAG_DIMENSIONS)) {
+        groups[dim] = tags
+            .map(tag => ({ tag, count: tagCounts[tag] || 0 }))
+            .filter(t => t.count > 0);
+    }
+    
+    const classified = new Set(Object.values(TAG_DIMENSIONS).flat());
+    const otherTags = Object.entries(tagCounts)
+        .filter(([tag]) => !classified.has(tag))
+        .sort((a, b) => b[1] - a[1])
+        .map(([tag, count]) => ({ tag, count }));
+    if (otherTags.length > 0) groups['其他'] = otherTags;
+    
+    let html = '';
+    for (const [groupName, tags] of Object.entries(groups)) {
+        if (tags.length === 0) continue;
+        html += `<div class="tag-filter-group"><div class="tag-filter-group-title">${groupName}</div><div class="tag-filter-group-tags">`;
+        tags.forEach(({tag, count}) => {
+            const active = selectedTags.has(tag) ? 'active' : '';
+            html += `<button class="tag-filter-btn ${active}" onclick="toggleTag('${tag}')">${tag} (${count})</button>`;
+        });
+        html += '</div></div>';
+    }
+    
+    container.innerHTML = html || '<div class="no-results">暂无标签数据</div>';
+    
+    const countBadge = document.getElementById('tagFilterCount');
+    const clearBtn = document.getElementById('tagClearBtn');
+    if (countBadge) {
+        countBadge.textContent = selectedTags.size;
+        countBadge.style.display = selectedTags.size > 0 ? 'inline' : 'none';
+    }
+    if (clearBtn) {
+        clearBtn.style.display = selectedTags.size > 0 ? 'inline' : 'none';
+    }
+}
+
+function toggleTag(tag) {
+    if (selectedTags.has(tag)) {
+        selectedTags.delete(tag);
+    } else {
+        selectedTags.add(tag);
+    }
+    renderTagFilter();
+    handleSearch();
+}
+
+function clearTagFilter() {
+    selectedTags.clear();
+    renderTagFilter();
+    handleSearch();
+}
+
+function renderQuickChips() {
+    const container = document.getElementById('quickChips');
+    container.innerHTML = QUICK_SEARCHES.map(q =>
+        `<span class="chip" onclick="quickSearch('${q}')">${q}</span>`
+    ).join('');
+}
+
+function quickSearch(q) {
+    document.getElementById('searchInput').value = q;
+    handleSearch();
+}
+
+function renderStatsBar() {
+    const total = allData.length;
+    const males = allData.filter(d => d.gender === '男').length;
+    const females = allData.filter(d => d.gender === '女').length;
+    const highRec = allData.filter(d => d.recognition >= 90).length;
+    const avgHeat = Math.round(allData.reduce((s, d) => s + d.heat, 0) / total);
+    const lowRisk = allData.filter(d => d.riskLevel === '低').length;
+    const lowRiskPct = Math.round(lowRisk / total * 100);
+
+    document.getElementById('statsBar').innerHTML = `
+        <div class="stats-item"><div class="num" style="color:var(--accent)">${total}</div><div class="label">总艺人数</div></div>
+        <div class="stats-divider"></div>
+        <div class="stats-item"><div class="num" style="color:var(--accent)">${males}</div><div class="label">男艺人</div></div>
+        <div class="stats-item"><div class="num" style="color:var(--pink)">${females}</div><div class="label">女艺人</div></div>
+        <div class="stats-divider"></div>
+        <div class="stats-item"><div class="num" style="color:var(--purple)">${highRec}</div><div class="label">国民级(90+)</div></div>
+        <div class="stats-item"><div class="num" style="color:var(--orange)">${avgHeat}</div><div class="label">平均热度</div></div>
+        <div class="stats-divider"></div>
+        <div class="stats-item"><div class="num" style="color:var(--green)">${lowRiskPct}%</div><div class="label">低风险占比</div></div>
+    `;
+}
+
+function renderCategoryTabs() {
+    const container = document.getElementById('categoryTabs');
+    container.innerHTML = CATEGORIES.map(cat => {
+        const count = cat.key === '' ? allData.length : allData.filter(d => cat.match(d)).length;
+        return `<button class="cat-tab ${cat.key === currentCategory ? 'active' : ''}" onclick="switchCategory('${cat.key}')">${cat.label} <span class="tab-count">${count}</span></button>`;
+    }).join('');
+}
+
+function switchCategory(key) {
+    currentCategory = key;
+    renderCategoryTabs();
+    handleSearch();
+}
+
+function switchSort(sort) {
+    currentSort = sort;
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.sort === sort);
+    });
+    handleSearch();
+}
+
+// ===== Search & Filter =====
+function parseSearchQuery(query) {
+    const result = { gender: null, region: null, professions: [], styles: [], rawWords: [], originalQuery: query };
+
+    // Extract gender
+    for (const [key, val] of Object.entries(GENDER_MAP)) {
+        if (query.includes(key)) { result.gender = val; break; }
+    }
+    // Extract region
+    for (const [key, val] of Object.entries(REGION_MAP)) {
+        if (query.includes(key)) { result.region = val; break; }
+    }
+    // Extract professions (longest match first to avoid partial overlaps)
+    const profKeys = Object.keys(PROFESSION_KEYWORDS).sort((a, b) => b.length - a.length);
+    const matchedProfessions = new Set();
+    profKeys.forEach(k => {
+        if (query.includes(k.toLowerCase())) {
+            matchedProfessions.add(PROFESSION_KEYWORDS[k]);
+        }
+    });
+    result.professions = [...matchedProfessions];
+
+    // Extract styles - check all tags from TAG_DIMENSIONS and data
+    const allTags = new Set();
+    Object.values(TAG_DIMENSIONS).forEach(tags => tags.forEach(t => allTags.add(t.toLowerCase())));
+    CELEBRITY_DATA.forEach(d => (d.styles || []).forEach(s => allTags.add(s.toLowerCase())));
+    const matchedStyles = new Set();
+    allTags.forEach(tag => {
+        if (query.includes(tag)) matchedStyles.add(tag);
+    });
+    result.styles = [...matchedStyles];
+
+    // Remove extracted keywords from remaining (longest first)
+    const allExtracted = [
+        ...Object.keys(GENDER_MAP),
+        ...Object.keys(REGION_MAP),
+        ...profKeys,
+        ...[...allTags]
+    ].sort((a, b) => b.length - a.length);
+
+    let remaining = query;
+    allExtracted.forEach(k => { remaining = remaining.replace(k.toLowerCase(), ' '); });
+    result.rawWords = remaining.split(/\s+/).filter(w => w.length > 0);
+    return result;
+}
+
+function handleSearch() {
+    const query = document.getElementById('searchInput').value.trim();
+    const queryLower = query.toLowerCase();
+    const parsed = parseSearchQuery(queryLower);
+    const gender = document.getElementById('genderFilter').value;
+    const region = document.getElementById('regionFilter').value;
+    const recognitionRange = document.getElementById('recognitionFilter').value;
+    const riskLevel = document.getElementById('riskFilter').value;
+    const ageRange = document.getElementById('ageFilter').value;
+    const followersRange = document.getElementById('followersFilter').value;
+    const professionFilter = document.getElementById('professionFilter').value;
+    const hasQuery = !!query;
+
+    // Auto-set gender filter for visual feedback when query contains gender keyword
+    if (parsed.gender && !gender) {
+        document.getElementById('genderFilter').value = parsed.gender;
+    }
+
+    // Show/hide match sort button
+    document.getElementById('sortMatch').style.display = hasQuery ? '' : 'none';
+
+    // Auto-switch to match sort when searching
+    if (hasQuery && currentSort !== 'match') {
+        currentSort = 'match';
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.sort === 'match');
+        });
+    }
+    if (!hasQuery && currentSort === 'match') {
+        currentSort = 'heat';
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.sort === 'heat');
+        });
+    }
+
+    // Debounce: clear previous timer
+    if (searchTimer) clearTimeout(searchTimer);
+
+    const loadingEl = document.getElementById('searchLoading');
+    const gridEl = document.getElementById('cardGrid');
+
+    // Show loading animation for query searches
+    if (hasQuery) {
+        loadingEl.classList.add('active');
+        gridEl.style.opacity = '0.3';
+    }
+
+    searchTimer = setTimeout(() => {
+        loadingEl.classList.remove('active');
+        gridEl.style.opacity = '1';
+
+        const effectiveGender = gender || parsed.gender;
+        const effectiveRegion = region || parsed.region;
+
+        let filtered = allData.filter(d => {
+            if (currentCategory) {
+                const cat = CATEGORIES.find(c => c.key === currentCategory);
+                if (cat && !cat.match(d)) return false;
+            }
+            if (effectiveGender && d.gender !== effectiveGender) return false;
+            if (effectiveRegion && d.region !== effectiveRegion) return false;
+            if (recognitionRange) {
+                const [min, max] = recognitionRange.split('-').map(Number);
+                if (d.recognition < min || d.recognition > max) return false;
+            }
+            if (riskLevel && d.riskLevel !== riskLevel) return false;
+            if (ageRange) {
+                const [min, max] = ageRange.split('-').map(Number);
+                const age = 2025 - d.birthYear;
+                if (age < min || age > max) return false;
+            }
+            if (followersRange) {
+                const totalFollowers = (d.weiboFollowers || 0) + (d.douyinFollowers || 0);
+                if (followersRange.endsWith('+')) {
+                    const min = parseInt(followersRange);
+                    if (totalFollowers < min) return false;
+                } else {
+                    const [min, max] = followersRange.split('-').map(Number);
+                    if (totalFollowers < min || totalFollowers > max) return false;
+                }
+            }
+            if (professionFilter && !d.professions.includes(professionFilter)) return false;
+            if (selectedTags.size > 0) {
+                const hasAllTags = [...selectedTags].every(tag => (d.styles || []).includes(tag));
+                if (!hasAllTags) return false;
+            }
+            return true;
+        });
+
+        // Hard filter: profession keywords from search must match
+        if (hasQuery && parsed.professions.length > 0) {
+            filtered = filtered.filter(d => {
+                return parsed.professions.some(p => {
+                    if (p === '运动员') return d.professions.includes('运动员');
+                    if (p === '主持人') return d.professions.includes('主持人');
+                    if (p === '说唱') return d.professions.some(prof => prof.toLowerCase().includes('说唱'));
+                    if (p === '喜剧') return d.professions.some(prof => prof.includes('喜剧') || prof.includes('相声'));
+                    if (p === '脱口秀') return d.professions.some(prof => prof.includes('脱口秀'));
+                    if (p === '综艺') return d.professions.some(prof => prof.includes('综艺') || prof.includes('主持人'));
+                    if (p === '相声') return d.professions.some(prof => prof.includes('相声'));
+                    return d.professions.some(prof => prof.includes(p));
+                });
+            });
+        }
+
+        if (hasQuery) {
+            filtered = filtered.map(d => {
+                const { score, reasons } = calculateRelevance(d, queryLower, parsed);
+                return { ...d, _match: score, _matchReasons: reasons };
+            }).filter(d => d._match > 0);
+        } else {
+            filtered = filtered.map(d => ({ ...d, _match: 0, _matchReasons: [] }));
+        }
+
+        // Sort
+        if (currentSort === 'match' && hasQuery) {
+            filtered.sort((a, b) => b._match - a._match);
+        } else if (currentSort === 'heat') {
+            filtered.sort((a, b) => b.heat - a.heat);
+        } else if (currentSort === 'recognition') {
+            filtered.sort((a, b) => b.recognition - a.recognition);
+        } else if (currentSort === 'followers') {
+            filtered.sort((a, b) => (b.weiboFollowers + b.douyinFollowers) - (a.weiboFollowers + a.douyinFollowers));
+        }
+
+        currentResults = filtered;
+        displayCount = 0;
+        renderResults(filtered, hasQuery);
+    }, hasQuery ? 400 : 0);
+}
+
+function loadMore() {
+    displayCount += PAGE_SIZE;
+    renderCards(currentResults, !!document.getElementById('searchInput').value.trim());
+}
+
+function calculateRelevance(d, query, parsed) {
+    let score = 0;
+    let reasons = [];
+
+    // Gender: hard filter
+    if (parsed.gender) {
+        if (d.gender === parsed.gender) {
+            score += 50;
+            reasons.push('性别:' + parsed.gender);
+        } else {
+            return { score: 0, reasons: [] };
+        }
+    }
+
+    // Region match
+    if (parsed.region && d.region === parsed.region) {
+        score += 15;
+        reasons.push('地域:' + parsed.region);
+    }
+
+    // Profession matches (already hard-filtered, just score)
+    parsed.professions.forEach(p => {
+        const profMatched = (() => {
+            if (p === '运动员') return d.professions.includes('运动员');
+            if (p === '主持人') return d.professions.includes('主持人');
+            if (p === '说唱') return d.professions.some(prof => prof.toLowerCase().includes('说唱'));
+            if (p === '喜剧') return d.professions.some(prof => prof.includes('喜剧') || prof.includes('相声'));
+            if (p === '脱口秀') return d.professions.some(prof => prof.includes('脱口秀'));
+            if (p === '综艺') return d.professions.some(prof => prof.includes('综艺') || prof.includes('主持人'));
+            if (p === '相声') return d.professions.some(prof => prof.includes('相声'));
+            return d.professions.some(prof => prof.includes(p));
+        })();
+        if (profMatched) {
+            score += 15;
+            reasons.push('职业:' + p);
+        }
+    });
+
+    // Style matches with synonym expansion
+    parsed.styles.forEach(s => {
+        const synonyms = SEARCH_SYNONYMS[s] || [s];
+        const matched = synonyms.some(syn =>
+            d.styles.some(st => st.toLowerCase() === syn.toLowerCase()) ||
+            d.professions.some(p => p.toLowerCase().includes(syn.toLowerCase()))
+        );
+        if (matched) {
+            score += 8;
+            reasons.push('风格:' + s);
+        }
+    });
+
+    // Raw word matches
+    parsed.rawWords.forEach(word => {
+        if (d.name.toLowerCase().includes(word)) {
+            score += 5;
+            reasons.push('名字匹配');
+        }
+        if (d.styles.some(st => st.toLowerCase().includes(word))) {
+            score += 4;
+            reasons.push('标签:' + word);
+        }
+        if (d.professions.some(p => p.toLowerCase().includes(word))) score += 3;
+        if (d.description.toLowerCase().includes(word)) score += 2;
+        d.works.forEach(w => { if (w.toLowerCase().includes(word)) score += 3; });
+    });
+
+    // Full query partial match in description
+    if (d.description.toLowerCase().includes(query)) score += 3;
+
+    return { score, reasons };
+}
+
+// ===== Render =====
+function renderResults(data, hasQuery) {
+    const empty = document.getElementById('emptyState');
+    const countEl = document.getElementById('resultsCount');
+
+    const sortLabels = { heat: '热度', recognition: '国民认知度', followers: '粉丝量', match: '契合度' };
+    countEl.innerHTML = `共找到 <strong>${data.length}</strong> 位艺人（按${sortLabels[currentSort]}排序）`;
+    countEl.classList.remove('pulse');
+    void countEl.offsetWidth;
+    countEl.classList.add('pulse');
+
+    if (data.length === 0) {
+        document.getElementById('cardGrid').innerHTML = '';
+        document.getElementById('loadMore').style.display = 'none';
+        empty.style.display = 'block';
+        return;
+    }
+    empty.style.display = 'none';
+    displayCount = PAGE_SIZE;
+    renderCards(data, hasQuery);
+}
+
+function renderCards(data, hasQuery) {
+    const grid = document.getElementById('cardGrid');
+    const loadMoreEl = document.getElementById('loadMore');
+    const loadMoreInfo = document.getElementById('loadMoreInfo');
+    const visible = data.slice(0, displayCount);
+    grid.innerHTML = visible.map(d => renderCard(d, hasQuery)).join('');
+    if (data.length > displayCount) {
+        loadMoreEl.style.display = 'block';
+        loadMoreInfo.textContent = `已显示 ${displayCount} / ${data.length} 位`;
+    } else {
+        loadMoreEl.style.display = 'none';
+    }
+}
+
+function renderCard(d, hasQuery) {
+    const [c1, c2] = AVATAR_COLORS[d.id % AVATAR_COLORS.length];
+    const genderClass = d.gender === '男' ? 'male' : 'female';
+    const genderText = d.gender || '未知';
+    const riskClass = d.riskLevel === '低' ? 'low' : d.riskLevel === '中' ? 'medium' : 'high';
+    const totalFollowers = d.weiboFollowers + d.douyinFollowers;
+    const followersStr = totalFollowers > 0 ? formatNumber(totalFollowers) : '未公开';
+
+    let matchBadge = '';
+    if (hasQuery && d._match > 0) {
+        const maxScore = Math.max(...currentResults.map(r => r._match), 1);
+        const pct = Math.round((d._match / maxScore) * 100);
+        const cls = pct >= 70 ? 'high' : pct >= 40 ? 'medium' : 'low';
+        matchBadge = `<div class="match-score ${cls}">契合度 ${pct}%</div>`;
+    }
+
+    const heatColor = d.heat >= 85 ? 'var(--red)' : d.heat >= 70 ? 'var(--orange)' : 'var(--text-secondary)';
+    const recColor = d.recognition >= 90 ? 'var(--accent)' : d.recognition >= 80 ? 'var(--purple)' : 'var(--text-secondary)';
+
+    return `
+    <div class="card" onclick="showDetail(${d.id})">
+        <div class="card-top">
+            <div class="card-avatar" style="background:linear-gradient(135deg,${c1},${c2})">${d.name[0]}</div>
+            <div class="card-info">
+                <div class="card-name">
+                    ${d.name}
+                    <span class="gender-badge ${genderClass}">${genderText}</span>
+                    <span class="region-badge">${d.region}</span>
+                </div>
+                <div class="card-sub">${d.professions.join(' / ')} · ${2025 - d.birthYear}岁</div>
+            </div>
+        </div>
+        <div class="card-desc">${d.description}</div>
+        <div class="card-stats">
+            <div class="stat-item">
+                <div class="stat-value" style="color:${heatColor}">
+                    ${d.heat}
+                    <span class="tooltip-icon">?<span class="tooltip-text">基于近期公开活动、社交媒体讨论度、作品热度等综合评估，非实时数据。分数0-100，越高越热。</span></span>
+                </div>
+                <div class="stat-label">热度</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" style="color:${recColor}">
+                    ${d.recognition}
+                    <span class="tooltip-icon">?<span class="tooltip-text">基于公众知名度、作品传播度、媒体报道频率等综合评估。分数0-100，越高认知度越高。</span></span>
+                </div>
+                <div class="stat-label">认知度</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">${followersStr}</div>
+                <div class="stat-label">社媒粉丝</div>
+            </div>
+        </div>
+        <div class="card-tags">
+            ${d.styles.slice(0, 4).map(s => `<span class="tag">${s}</span>`).join('')}
+            ${d.works.slice(0, 2).map(w => `<span class="tag work">《${w}》</span>`).join('')}
+            ${d.works.length === 0 ? '<span class="tag" style="opacity:0.5">暂无代表作品</span>' : ''}
+        </div>
+        ${hasQuery && d._matchReasons && d._matchReasons.length > 0 ? `
+        <div class="match-reasons">
+            ${d._matchReasons.slice(0, 4).map(r => `<span class="match-reason">${r}</span>`).join('')}
+        </div>` : ''}
+        <div class="card-bottom">
+            <div class="card-bottom-label">风险等级</div>
+            <div style="display:flex;gap:6px;align-items:center">
+                <span class="risk-badge ${riskClass}">风险:${d.riskLevel}</span>
+                ${matchBadge}
+            </div>
+        </div>
+    </div>`;
+}
+
+function formatNumber(n) {
+    if (n >= 100000000) return (n / 100000000).toFixed(1) + '亿';
+    if (n >= 10000) return (n / 10000).toFixed(0) + '万';
+    return n.toString();
+}
+
+// ===== Detail =====
+function showDetail(id) {
+    const d = allData.find(x => x.id === id);
+    if (!d) return;
+    const [c1, c2] = AVATAR_COLORS[d.id % AVATAR_COLORS.length];
+    const genderClass = d.gender === '男' ? 'male' : 'female';
+    const riskClass = d.riskLevel === '低' ? 'low' : d.riskLevel === '中' ? 'medium' : 'high';
+    const age = 2025 - d.birthYear;
+
+    document.getElementById('detailContent').innerHTML = `
+        <div class="detail-header">
+            <div class="detail-avatar" style="background:linear-gradient(135deg,${c1},${c2})">${d.name[0]}</div>
+            <div>
+                <div style="font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                    ${d.name}
+                    <span class="gender-badge ${genderClass}">${d.gender}</span>
+                    <span class="region-badge">${d.region}</span>
+                </div>
+                <div style="font-size:13px;color:var(--text-muted);margin-top:2px">${d.professions.join(' / ')} · ${age}岁 · 出生于${d.birthYear}年</div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">核心数据</div>
+            <div class="detail-stats">
+                <div class="detail-stat-box">
+                    <div class="stat-value" style="color:${d.heat >= 85 ? 'var(--red)' : d.heat >= 70 ? 'var(--orange)' : 'var(--text-secondary)'}">${d.heat}</div>
+                    <div class="stat-label">热度</div>
+                    <div class="score-bar"><div class="score-bar-fill" style="width:${d.heat}%;background:${d.heat >= 85 ? 'var(--red)' : d.heat >= 70 ? 'var(--orange)' : 'var(--text-secondary)'}"></div></div>
+                </div>
+                <div class="detail-stat-box">
+                    <div class="stat-value" style="color:${d.recognition >= 90 ? 'var(--accent)' : 'var(--purple)'}">${d.recognition}</div>
+                    <div class="stat-label">国民认知度</div>
+                    <div class="score-bar"><div class="score-bar-fill" style="width:${d.recognition}%;background:${d.recognition >= 90 ? 'var(--accent)' : 'var(--purple)'}"></div></div>
+                </div>
+                <div class="detail-stat-box">
+                    <div class="stat-value">${d.weiboFollowers > 0 ? formatNumber(d.weiboFollowers) : '—'}</div>
+                    <div class="stat-label">微博粉丝</div>
+                </div>
+                <div class="detail-stat-box">
+                    <div class="stat-value">${d.douyinFollowers > 0 ? formatNumber(d.douyinFollowers) : '—'}</div>
+                    <div class="stat-label">抖音粉丝</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">风格标签</div>
+            <div class="detail-tags">${d.styles.map(s => `<span class="tag">${s}</span>`).join('')}</div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">代表作品</div>
+            <div class="detail-tags">${d.works.map(w => `<span class="tag work">《${w}》</span>`).join('')}</div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">职业类型</div>
+            <div class="detail-tags">${d.professions.map(p => `<span class="tag" style="background:rgba(188,140,255,0.1);color:var(--purple);border-color:rgba(188,140,255,0.2)">${p}</span>`).join('')}</div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">风险评估</div>
+            <div class="detail-risk">
+                <div class="detail-risk-row">
+                    <span style="font-size:13px;color:var(--text-secondary)">风险等级</span>
+                    <span class="risk-badge ${riskClass}">${d.riskLevel}</span>
+                </div>
+                <div class="detail-risk-row">
+                    <span style="font-size:13px;color:var(--text-secondary)">说明</span>
+                    <span style="font-size:12px;color:var(--text-muted);text-align:right;max-width:250px">${d.riskNote}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">艺人简介</div>
+            <div class="detail-desc">${d.description}</div>
+        </div>
+    `;
+    document.getElementById('detailPanel').classList.add('active');
+}
+
+function closeDetail() { document.getElementById('detailPanel').classList.remove('active'); }
+
+// ===== Import / Export =====
+function openImportModal() { document.getElementById('importModal').classList.add('active'); }
+function closeImportModal() { document.getElementById('importModal').classList.remove('active'); }
+
+function exportTemplate() {
+    const template = allData.map(d => ({
+        id: d.id, name: d.name, gender: d.gender, birthYear: d.birthYear, region: d.region,
+        professions: d.professions, works: d.works, styles: d.styles,
+        recognition: d.recognition, heat: d.heat,
+        weiboFollowers: d.weiboFollowers, douyinFollowers: d.douyinFollowers,
+        riskLevel: d.riskLevel, riskNote: d.riskNote, description: d.description
+    }));
+    const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'celebrity-template.json'; a.click();
+    URL.revokeObjectURL(url);
+}
+
+function handleFileImport(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (!Array.isArray(data)) throw new Error('数据格式错误：应为数组');
+            allData = data;
+            renderCategoryTabs();
+            renderStatsBar();
+            document.getElementById('totalCountText').textContent = allData.length;
+            handleSearch();
+            closeImportModal();
+            alert(`成功导入 ${data.length} 条艺人数据！`);
+        } catch (err) {
+            alert('导入失败：' + err.message + '\n\n请确保文件是正确的 JSON 格式，可点击"导出模板"查看示例。');
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+// Modal click outside
+document.getElementById('importModal').addEventListener('click', function(e) {
+    if (e.target === this) closeImportModal();
+});
+
+// Init
+init();
+</script>
+</body>
+</html>
