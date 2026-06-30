@@ -144,32 +144,30 @@
         .sort-btn:hover { background: var(--bg-hover); }
         .sort-btn.active { background: rgba(88,166,255,0.15); color: var(--accent); border-color: var(--accent); }
 
-        /* ===== Quick Search Chips ===== */
-        .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-        .chip {
-            padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
-            background: var(--bg-card); color: var(--text-secondary); font-size: 13px;
-            cursor: pointer; transition: all 0.2s; font-family: inherit;
+        /* ===== Selected Tags Bar ===== */
+        .selected-tags-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+        .selected-tags-bar:empty { display: none; }
+        .selected-tag-pill {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 4px 8px 4px 12px; border-radius: 20px;
+            background: rgba(88,166,255,0.15); color: var(--accent);
+            border: 1px solid rgba(88,166,255,0.3); font-size: 12px; font-weight: 600;
+            cursor: pointer; transition: all 0.15s; font-family: inherit;
         }
-        .chip:hover { border-color: var(--accent); color: var(--accent); background: rgba(88,166,255,0.08); }
-        .chip.active { background: rgba(88,166,255,0.15); color: var(--accent); border-color: var(--accent); }
+        .selected-tag-pill:hover { background: rgba(248,81,73,0.12); color: var(--red); border-color: rgba(248,81,73,0.3); }
+        .selected-tag-pill .pill-x { font-size: 14px; line-height: 1; opacity: 0.7; }
 
-        /* ===== Tag Filter Panel ===== */
-        .tag-filter-panel {
+        /* ===== Tag Filter Area (always visible) ===== */
+        .tag-filter-area {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
             margin-bottom: 16px; overflow: hidden;
         }
-        .tag-filter-header {
+        .tag-filter-area-header {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px; cursor: pointer; user-select: none;
+            padding: 10px 16px; border-bottom: 1px solid var(--border);
         }
-        .tag-filter-header:hover { background: var(--bg-hover); }
-        .tag-filter-title { font-size: 13px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
-        .tag-filter-count { font-size: 11px; padding: 1px 8px; border-radius: 10px; background: rgba(88,166,255,0.15); color: var(--accent); font-weight: 600; }
-        .tag-filter-toggle { font-size: 12px; color: var(--text-muted); transition: transform 0.2s; }
-        .tag-filter-panel.active .tag-filter-toggle { transform: rotate(180deg); }
-        .tag-filter-body { display: none; padding: 0 16px 14px; max-height: 480px; overflow-y: auto; }
-        .tag-filter-panel.active .tag-filter-body { display: block; }
+        .tag-filter-area-title { font-size: 13px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
+        .tag-filter-area-body { padding: 12px 16px; max-height: 420px; overflow-y: auto; }
         .tag-filter-group { margin-bottom: 12px; }
         .tag-filter-group:last-child { margin-bottom: 0; }
         .tag-filter-group-title { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
@@ -380,13 +378,13 @@
 <!-- ===== Search Section ===== -->
 <div class="search-section">
     <div class="search-title">找到最适合你活动的艺人</div>
-    <div class="search-subtitle">输入单个关键词如"漂亮""搞笑""年轻""体育"，或点击下方标签精确筛选 <strong id="totalCountText"></strong> 位艺人</div>
+    <div class="search-subtitle">输入关键词 + 点击标签组合筛选，找到最合适的 <strong id="totalCountText"></strong> 位艺人</div>
     <div class="search-box">
         <input type="text" class="search-input" id="searchInput" placeholder="输入关键词：漂亮 / 搞笑 / 年轻 / 体育 / 古装..." oninput="handleSearch()">
     </div>
 
-    <!-- Quick Search Chips -->
-    <div class="quick-chips" id="quickChips"></div>
+    <!-- Selected Tags (shows active tag pills) -->
+    <div class="selected-tags-bar" id="selectedTagsBar"></div>
 
     <!-- Category Tabs -->
     <div class="category-tabs" id="categoryTabs"></div>
@@ -475,19 +473,13 @@
         </div>
     </div>
 
-    <!-- Tag Filter Panel -->
-    <div class="tag-filter-panel" id="tagFilterPanel">
-        <div class="tag-filter-header" onclick="toggleTagFilter()">
-            <div class="tag-filter-title">
-                🏷️ 标签筛选（可多选）
-                <span class="tag-filter-count" id="tagFilterCount" style="display:none">0</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-                <span class="tag-clear-btn" id="tagClearBtn" style="display:none" onclick="event.stopPropagation();clearTagFilter()">清除</span>
-                <span class="tag-filter-toggle" id="tagFilterToggle">▼</span>
-            </div>
+    <!-- Tag Filter (always visible) -->
+    <div class="tag-filter-area">
+        <div class="tag-filter-area-header">
+            <div class="tag-filter-area-title">🏷️ 标签筛选（点击标签筛选，可多选）</div>
+            <span class="tag-clear-btn" id="tagClearBtn" style="display:none" onclick="clearTagFilter()">清除全部</span>
         </div>
-        <div class="tag-filter-body" id="tagFilterBody"></div>
+        <div class="tag-filter-area-body" id="tagFilterBody"></div>
     </div>
 </div>
 
@@ -548,14 +540,6 @@ const AVATAR_COLORS = [
     ['#f778ba','#bc8cff'], ['#58a6ff','#3fb950'], ['#d29922','#f85149'],
     ['#3fb950','#58a6ff'], ['#bc8cff','#f778ba'], ['#f85149','#d29922'],
     ['#79b8ff','#bc8cff'], ['#56d364','#d29922']
-];
-
-// Quick search chips - single words only
-const QUICK_SEARCHES = [
-    '漂亮', '帅气', '年轻', '搞笑', '性感', '实力派',
-    '国民度', '国际范', '综艺感', '古装', '童星', '学霸',
-    '东北', '港风', '阳光', '清纯', '御姐', '硬汉',
-    '偶像', '低调', '励志', '争议性', '古典美', '高级感'
 ];
 
 // Category tabs with precise match functions
@@ -622,20 +606,11 @@ const REGION_MAP = {
 // ===== Init =====
 function init() {
     renderCategoryTabs();
-    renderQuickChips();
     renderStatsBar();
     renderTagFilter();
     handleSearch();
     document.getElementById('templateCode').textContent = JSON.stringify([allData[0]], null, 2);
     document.getElementById('totalCountText').textContent = allData.length;
-}
-
-function toggleTagFilter() {
-    const panel = document.getElementById('tagFilterPanel');
-    panel.classList.toggle('active');
-    if (panel.classList.contains('active')) {
-        renderTagFilter();
-    }
 }
 
 function renderTagFilter() {
@@ -676,15 +651,24 @@ function renderTagFilter() {
     
     container.innerHTML = html || '<div class="no-results">暂无标签数据</div>';
     
-    const countBadge = document.getElementById('tagFilterCount');
+    renderSelectedTagsBar();
+    
     const clearBtn = document.getElementById('tagClearBtn');
-    if (countBadge) {
-        countBadge.textContent = selectedTags.size;
-        countBadge.style.display = selectedTags.size > 0 ? 'inline' : 'none';
-    }
     if (clearBtn) {
         clearBtn.style.display = selectedTags.size > 0 ? 'inline' : 'none';
     }
+}
+
+function renderSelectedTagsBar() {
+    const bar = document.getElementById('selectedTagsBar');
+    if (!bar) return;
+    if (selectedTags.size === 0) {
+        bar.innerHTML = '';
+        return;
+    }
+    bar.innerHTML = [...selectedTags].map(tag =>
+        `<span class="selected-tag-pill" onclick="toggleTag('${tag}')">${tag} <span class="pill-x">✕</span></span>`
+    ).join('');
 }
 
 function toggleTag(tag) {
@@ -700,18 +684,6 @@ function toggleTag(tag) {
 function clearTagFilter() {
     selectedTags.clear();
     renderTagFilter();
-    handleSearch();
-}
-
-function renderQuickChips() {
-    const container = document.getElementById('quickChips');
-    container.innerHTML = QUICK_SEARCHES.map(q =>
-        `<span class="chip" onclick="quickSearch('${q}')">${q}</span>`
-    ).join('');
-}
-
-function quickSearch(q) {
-    document.getElementById('searchInput').value = q;
     handleSearch();
 }
 
@@ -816,7 +788,8 @@ function handleSearch() {
     const ageRange = document.getElementById('ageFilter').value;
     const followersRange = document.getElementById('followersFilter').value;
     const professionFilter = document.getElementById('professionFilter').value;
-    const hasQuery = !!query;
+    const hasTextQuery = !!query;
+    const hasQuery = hasTextQuery || selectedTags.size > 0;
 
     // Auto-set gender filter for visual feedback when query contains gender keyword
     if (parsed.gender && !gender) {
@@ -846,8 +819,8 @@ function handleSearch() {
     const loadingEl = document.getElementById('searchLoading');
     const gridEl = document.getElementById('cardGrid');
 
-    // Show loading animation for query searches
-    if (hasQuery) {
+    // Show loading animation for text searches only (tags are instant)
+    if (hasTextQuery) {
         loadingEl.classList.add('active');
         gridEl.style.opacity = '0.3';
     }
@@ -919,9 +892,9 @@ function handleSearch() {
             filtered = filtered.map(d => ({ ...d, _match: 0, _matchReasons: [] }));
         }
 
-        // Sort
+        // Sort (with heat tiebreaker for equal match scores)
         if (currentSort === 'match' && hasQuery) {
-            filtered.sort((a, b) => b._match - a._match);
+            filtered.sort((a, b) => b._match - a._match || b.heat - a.heat);
         } else if (currentSort === 'heat') {
             filtered.sort((a, b) => b.heat - a.heat);
         } else if (currentSort === 'recognition') {
@@ -933,12 +906,13 @@ function handleSearch() {
         currentResults = filtered;
         displayCount = 0;
         renderResults(filtered, hasQuery);
-    }, hasQuery ? 400 : 0);
+    }, hasTextQuery ? 400 : 0);
 }
 
 function loadMore() {
     displayCount += PAGE_SIZE;
-    renderCards(currentResults, !!document.getElementById('searchInput').value.trim());
+    const hasText = !!document.getElementById('searchInput').value.trim();
+    renderCards(currentResults, hasText || selectedTags.size > 0);
 }
 
 function calculateRelevance(d, query, parsed) {
@@ -1007,8 +981,15 @@ function calculateRelevance(d, query, parsed) {
         d.works.forEach(w => { if (w.toLowerCase().includes(word)) score += 3; });
     });
 
-    // Full query partial match in description
-    if (d.description.toLowerCase().includes(query)) score += 3;
+    // Selected tags scoring (tags already hard-filtered, add to score)
+    if (selectedTags.size > 0) {
+        const matchedTags = [...selectedTags].filter(tag => (d.styles || []).includes(tag));
+        score += matchedTags.length * 8;
+        matchedTags.forEach(t => reasons.push('标签:' + t));
+    }
+
+    // Full query partial match in description (skip for empty query)
+    if (query && d.description.toLowerCase().includes(query)) score += 3;
 
     return { score, reasons };
 }
