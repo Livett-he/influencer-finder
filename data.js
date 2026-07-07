@@ -1127,7 +1127,7 @@ const CELEBRITY_DATA = [
       "话题性"
     ],
     "recognition": 76,
-    "heat": 75,
+    "heat": 70,
     "weiboFollowers": 25000000,
     "douyinFollowers": 8000000,
     "riskLevel": "中",
@@ -1156,7 +1156,7 @@ const CELEBRITY_DATA = [
       "亲和力"
     ],
     "recognition": 80,
-    "heat": 85,
+    "heat": 87,
     "weiboFollowers": 25000000,
     "douyinFollowers": 18000000,
     "riskLevel": "低",
@@ -1185,7 +1185,7 @@ const CELEBRITY_DATA = [
       "年轻"
     ],
     "recognition": 76,
-    "heat": 78,
+    "heat": 82,
     "weiboFollowers": 20000000,
     "douyinFollowers": 10000000,
     "riskLevel": "低",
@@ -1306,7 +1306,7 @@ const CELEBRITY_DATA = [
       "综艺感"
     ],
     "recognition": 85,
-    "heat": 82,
+    "heat": 80,
     "weiboFollowers": 55000000,
     "douyinFollowers": 20000000,
     "riskLevel": "中",
@@ -1394,7 +1394,7 @@ const CELEBRITY_DATA = [
       "低调"
     ],
     "recognition": 82,
-    "heat": 85,
+    "heat": 90,
     "weiboFollowers": 20000000,
     "douyinFollowers": 12000000,
     "riskLevel": "低",
@@ -1983,7 +1983,7 @@ const CELEBRITY_DATA = [
       "国民度"
     ],
     "recognition": 78,
-    "heat": 67,
+    "heat": 70,
     "weiboFollowers": 35000000,
     "douyinFollowers": 10000000,
     "riskLevel": "低",
@@ -2133,7 +2133,7 @@ const CELEBRITY_DATA = [
       "年轻"
     ],
     "recognition": 74,
-    "heat": 73,
+    "heat": 82,
     "weiboFollowers": 50000000,
     "douyinFollowers": 20000000,
     "riskLevel": "低",
@@ -2337,7 +2337,7 @@ const CELEBRITY_DATA = [
       "流量"
     ],
     "recognition": 76,
-    "heat": 75,
+    "heat": 72,
     "weiboFollowers": 20000000,
     "douyinFollowers": 15000000,
     "riskLevel": "低",
@@ -12167,7 +12167,7 @@ const CELEBRITY_DATA = [
       "经典"
     ],
     "recognition": 38,
-    "heat": 25,
+    "heat": 50,
     "weiboFollowers": 0,
     "douyinFollowers": 0,
     "riskLevel": "低",
@@ -14918,7 +14918,7 @@ const CELEBRITY_DATA = [
       "实力派"
     ],
     "recognition": 27,
-    "heat": 25,
+    "heat": 78,
     "weiboFollowers": 0,
     "douyinFollowers": 0,
     "riskLevel": "低",
@@ -36673,7 +36673,7 @@ const CELEBRITY_DATA = [
       "话题性"
     ],
     "recognition": 85,
-    "heat": 72,
+    "heat": 78,
     "weiboFollowers": 18000000,
     "douyinFollowers": 4000000,
     "riskLevel": "中",
@@ -36815,7 +36815,7 @@ const CELEBRITY_DATA = [
       "回忆杀"
     ],
     "recognition": 90,
-    "heat": 92,
+    "heat": 85,
     "weiboFollowers": 8000000,
     "douyinFollowers": 5000000,
     "riskLevel": "低",
@@ -36898,7 +36898,7 @@ const CELEBRITY_DATA = [
       "辨识度"
     ],
     "recognition": 78,
-    "heat": 75,
+    "heat": 72,
     "weiboFollowers": 7000000,
     "douyinFollowers": 4000000,
     "riskLevel": "低",
@@ -38095,7 +38095,7 @@ const CELEBRITY_DATA = [
       "年轻"
     ],
     "recognition": 75,
-    "heat": 78,
+    "heat": 82,
     "weiboFollowers": 4000000,
     "douyinFollowers": 3000000,
     "riskLevel": "低",
@@ -41265,7 +41265,7 @@ const CELEBRITY_DATA = [
       "OST"
     ],
     "recognition": 78,
-    "heat": 68,
+    "heat": 78,
     "weiboFollowers": 8000000,
     "douyinFollowers": 4000000,
     "riskLevel": "低",
@@ -47115,7 +47115,7 @@ const CELEBRITY_DATA = [
       "争议性"
     ],
     "recognition": 80,
-    "heat": 60,
+    "heat": 85,
     "weiboFollowers": 15000000,
     "douyinFollowers": 5000000,
     "riskLevel": "中",
@@ -48742,7 +48742,7 @@ const CELEBRITY_DATA = [
       "综艺感"
     ],
     "recognition": 72,
-    "heat": 55,
+    "heat": 58,
     "weiboFollowers": 8000000,
     "douyinFollowers": 3000000,
     "riskLevel": "中",
@@ -49111,7 +49111,7 @@ const CELEBRITY_DATA = [
       "争议性"
     ],
     "recognition": 88,
-    "heat": 50,
+    "heat": 62,
     "weiboFollowers": 30000000,
     "douyinFollowers": 5000000,
     "riskLevel": "高",
@@ -51931,7 +51931,7 @@ const CELEBRITY_DATA = [
       "古装"
     ],
     "recognition": 65,
-    "heat": 60,
+    "heat": 68,
     "weiboFollowers": 5000000,
     "douyinFollowers": 2500000,
     "riskLevel": "低",
@@ -52034,7 +52034,7 @@ const CELEBRITY_DATA = [
       "实力派"
     ],
     "recognition": 45,
-    "heat": 32,
+    "heat": 35,
     "weiboFollowers": 1500000,
     "douyinFollowers": 800000,
     "riskLevel": "低",
@@ -54073,5 +54073,279 @@ const CELEBRITY_DATA = [
     "riskLevel": "低",
     "riskNote": "",
     "description": "中国高尔夫运动员，LPGA大满贯冠军，曾登顶世界第一，中国高尔夫运动开拓者。"
+  },
+  {
+    "id": 2695,
+    "name": "瞿颖",
+    "gender": "女",
+    "birthYear": 1971,
+    "region": "内地",
+    "professions": [
+      "模特",
+      "演员",
+      "歌手",
+      "主持人"
+    ],
+    "works": [
+      "有话好好说",
+      "百变大咖秀",
+      "乘风2026",
+      "加速度"
+    ],
+    "styles": [
+      "真实",
+      "松弛感",
+      "综艺感",
+      "搞笑",
+      "国民度",
+      "高级感",
+      "百变"
+    ],
+    "recognition": 85,
+    "heat": 88,
+    "weiboFollowers": 8000000,
+    "douyinFollowers": 15000000,
+    "riskLevel": "低",
+    "riskNote": "",
+    "description": "国际超模、演员、歌手，中国初代顶流模特。2026年因《乘风2026》直播中真实率性的表现爆火出圈，'作为西班牙人'等金句刷屏全网，被称为'内娱活人天花板'。"
+  },
+  {
+    "id": 2696,
+    "name": "董宇辉",
+    "gender": "男",
+    "birthYear": 1993,
+    "region": "内地",
+    "professions": [
+      "主播",
+      "企业家"
+    ],
+    "works": [
+      "与辉同行",
+      "东方甄选"
+    ],
+    "styles": [
+      "才华",
+      "文化感",
+      "亲和力",
+      "励志",
+      "温暖",
+      "低调"
+    ],
+    "recognition": 88,
+    "heat": 92,
+    "weiboFollowers": 2000000,
+    "douyinFollowers": 38080000,
+    "riskLevel": "低",
+    "riskNote": "",
+    "description": "知识型直播带货开创者，与辉同行创始人。2025年全年带货超210亿元，抖音粉丝超3800万，以文化底蕴和金句输出著称，改变了直播电商的叫卖式范式。"
+  },
+  {
+    "id": 2697,
+    "name": "李佳琦",
+    "gender": "男",
+    "birthYear": 1992,
+    "region": "内地",
+    "professions": [
+      "主播",
+      "美妆达人"
+    ],
+    "works": [
+      "李佳琦直播间",
+      "所有女生的OFFER"
+    ],
+    "styles": [
+      "专业",
+      "亲和力",
+      "国民度",
+      "潮流",
+      "实力派"
+    ],
+    "recognition": 90,
+    "heat": 88,
+    "weiboFollowers": 27610000,
+    "douyinFollowers": 8000000,
+    "riskLevel": "中",
+    "riskNote": "曾因言论争议引发讨论",
+    "description": "直播电商带货一哥，外号'口红一哥'，2025胡润达人商业价值百强TOP1，淘宝粉丝超9400万，年销售额超1750亿元，美妆带货标杆人物。"
+  },
+  {
+    "id": 2698,
+    "name": "刘畊宏",
+    "gender": "男",
+    "birthYear": 1972,
+    "region": "港台",
+    "professions": [
+      "歌手",
+      "演员",
+      "健身主播"
+    ],
+    "works": [
+      "本草纲目健身操",
+      "彩虹天堂",
+      "佳家福"
+    ],
+    "styles": [
+      "阳光",
+      "健康",
+      "亲和力",
+      "励志",
+      "综艺感"
+    ],
+    "recognition": 82,
+    "heat": 70,
+    "weiboFollowers": 3000000,
+    "douyinFollowers": 60440000,
+    "riskLevel": "低",
+    "riskNote": "",
+    "description": "中国台湾歌手、演员、健身博主。2022年因居家健身直播爆红，抖音粉丝峰值超7000万，掀起全民健身热潮，现稳定在6000万粉丝量级。"
+  },
+  {
+    "id": 2699,
+    "name": "罗永浩",
+    "gender": "男",
+    "birthYear": 1972,
+    "region": "内地",
+    "professions": [
+      "企业家",
+      "主播"
+    ],
+    "works": [
+      "锤子科技",
+      "交个朋友直播间"
+    ],
+    "styles": [
+      "才华",
+      "话题性",
+      "励志",
+      "真实",
+      "争议性"
+    ],
+    "recognition": 85,
+    "heat": 68,
+    "weiboFollowers": 15000000,
+    "douyinFollowers": 19000000,
+    "riskLevel": "中",
+    "riskNote": "创业经历起伏，话题性强",
+    "description": "锤子科技创始人，交个朋友直播间创始人。2020年转型直播带货，首播销售额1.1亿，被称为'抖音带货第一人'，以幽默犀利的风格著称。"
+  },
+  {
+    "id": 2700,
+    "name": "李晟",
+    "gender": "女",
+    "birthYear": 1985,
+    "region": "内地",
+    "professions": [
+      "演员",
+      "歌手"
+    ],
+    "works": [
+      "新还珠格格",
+      "花非花雾非雾",
+      "乘风2025",
+      "雁回时"
+    ],
+    "styles": [
+      "清纯",
+      "亲和力",
+      "实力派",
+      "低调",
+      "国民度"
+    ],
+    "recognition": 75,
+    "heat": 82,
+    "weiboFollowers": 12000000,
+    "douyinFollowers": 5000000,
+    "riskLevel": "低",
+    "riskNote": "",
+    "description": "中国内地女演员、歌手，因饰演《新还珠格格》小燕子被熟知。2025年《乘风2025》中以初舞台《当》斩获断层第一翻红，被称为'王心凌2.0'。"
+  },
+  {
+    "id": 2701,
+    "name": "叶童",
+    "gender": "女",
+    "birthYear": 1963,
+    "region": "港台",
+    "professions": [
+      "演员"
+    ],
+    "works": [
+      "新白娘子传奇",
+      "烈火青春",
+      "表错七日情",
+      "倚天屠龙记",
+      "乘风2025"
+    ],
+    "styles": [
+      "实力派",
+      "国民度",
+      "高级感",
+      "真实",
+      "优雅"
+    ],
+    "recognition": 92,
+    "heat": 85,
+    "weiboFollowers": 5000000,
+    "douyinFollowers": 3000000,
+    "riskLevel": "低",
+    "riskNote": "",
+    "description": "香港金像奖双料影后，两度获最佳女主角。因《新白娘子传奇》反串许仙成为几代人经典记忆。2025年以62岁银发造型参加《乘风2025》夺得年度总冠军，再度翻红。"
+  },
+  {
+    "id": 2702,
+    "name": "房琪",
+    "gender": "女",
+    "birthYear": 1993,
+    "region": "内地",
+    "professions": [
+      "主持人",
+      "旅行博主"
+    ],
+    "works": [
+      "美丽中华行",
+      "我是演说家第三季"
+    ],
+    "styles": [
+      "才华",
+      "温暖",
+      "励志",
+      "文艺",
+      "亲和力"
+    ],
+    "recognition": 65,
+    "heat": 68,
+    "weiboFollowers": 3000000,
+    "douyinFollowers": 24000000,
+    "riskLevel": "低",
+    "riskNote": "",
+    "description": "旅行自媒体创作者、前央视主持人。抖音粉丝超2400万，以诗意文案和温暖鼓励的风格走红，被称为'旅行治愈系博主'。"
+  },
+  {
+    "id": 2703,
+    "name": "李云霄",
+    "gender": "女",
+    "birthYear": 1993,
+    "region": "内地",
+    "professions": [
+      "越剧演员"
+    ],
+    "works": [
+      "新龙门客栈",
+      "陈三两",
+      "梁祝"
+    ],
+    "styles": [
+      "古典美",
+      "实力派",
+      "优雅",
+      "才华",
+      "低调"
+    ],
+    "recognition": 60,
+    "heat": 72,
+    "weiboFollowers": 2000000,
+    "douyinFollowers": 3000000,
+    "riskLevel": "低",
+    "riskNote": "",
+    "description": "浙江小百花越剧团一级演员，工花旦，师承吕派。因越剧《新龙门客栈》饰演金镶玉出圈，与陈丽君组成'君霄组合'登上央视春晚，推动越剧文化破圈传播。"
   }
 ];
