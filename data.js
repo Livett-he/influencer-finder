@@ -10528,13 +10528,13 @@ const CELEBRITY_DATA = [
     "styles": [
       "演技"
     ],
-    "recognition": 25,
-    "heat": 22,
-    "weiboFollowers": 0,
-    "douyinFollowers": 0,
+    "recognition": 65,
+    "heat": 68,
+    "weiboFollowers": 3000000,
+    "douyinFollowers": 2000000,
     "riskLevel": "低",
-    "riskNote": "待评估",
-    "description": "陈瑶（1994年10月31日—），四川攀枝花人，中国大陆女演員，畢業於北京电影学院2013级表演系。2015年出演网络剧《无心法师》的岳綺羅。"
+    "riskNote": "无重大负面",
+    "description": "陈瑶，1994年生于四川攀枝花，北京电影学院表演系毕业。2015年凭《无心法师》岳绮罗一角走红。2026年参加《乘风2026》虽未成团但人气暴涨，与张月CP引发热议。"
   },
   {
     "id": 431,
@@ -16522,24 +16522,31 @@ const CELEBRITY_DATA = [
   },
   {
     "id": 686,
-    "name": "管乐 (演员)",
+    "name": "管乐",
     "gender": "女",
-    "birthYear": 1993,
+    "birthYear": 1995,
     "region": "内地",
     "professions": [
       "演员"
     ],
-    "works": [],
-    "styles": [
-      "演技"
+    "works": [
+      "一年一度喜剧大赛2",
+      "墨雨云间",
+      "国色芳华",
+      "乘风2025"
     ],
-    "recognition": 24,
-    "heat": 22,
-    "weiboFollowers": 0,
-    "douyinFollowers": 0,
+    "styles": [
+      "喜剧",
+      "唱跳",
+      "辨识度"
+    ],
+    "recognition": 65,
+    "heat": 72,
+    "weiboFollowers": 2000000,
+    "douyinFollowers": 3000000,
     "riskLevel": "低",
-    "riskNote": "待评估",
-    "description": "管樂（1993年3月2日—），中國女演員，出生于山東省青島市，畢業於中央戲劇學院，與張小婉一同以喜劇雙人組「小婉管樂」身分活躍於大眾視野。2022年出演喜劇節目一年一度喜劇大賽第二季獲得關注，後出演墨雨雲間、國色芳華而逐漸為大眾熟知。"
+    "riskNote": "无重大负面",
+    "description": "管乐，1995年生于山东青岛，毕业于中央戏剧学院。与张小婉组成喜剧双人组「小婉管乐」，2022年凭《一年一度喜剧大赛2》出圈。2025年央视春晚小品《借伞》饰演青蛇，同年参加《乘风2025》成团出道。"
   },
   {
     "id": 687,
@@ -38334,12 +38341,12 @@ const CELEBRITY_DATA = [
       "唱跳"
     ],
     "recognition": 60,
-    "heat": 48,
+    "heat": 68,
     "weiboFollowers": 2000000,
     "douyinFollowers": 1000000,
     "riskLevel": "低",
     "riskNote": "无重大负面",
-    "description": "THE9成员，唱跳实力强。",
+    "description": "THE9成员，唱跳实力强。2026年参加《乘风2026》成团出道，舞台表现力突出。",
     "id": 2104
   },
   {
@@ -43470,13 +43477,13 @@ const CELEBRITY_DATA = [
       "实力派",
       "辨识度"
     ],
-    "recognition": 72,
-    "heat": 65,
+    "recognition": 78,
+    "heat": 80,
     "weiboFollowers": 5000000,
     "douyinFollowers": 2000000,
     "riskLevel": "低",
     "riskNote": "无重大负面",
-    "description": "三十而已林有有出圈，实力派年轻演员。",
+    "description": "三十而已林有有出圈，实力派年轻演员。2026年参加《乘风2026》获年度队长并成团出道，人气飙升。",
     "id": 2298
   },
   {
@@ -44247,12 +44254,12 @@ const CELEBRITY_DATA = [
       "偶像"
     ],
     "recognition": 75,
-    "heat": 55,
+    "heat": 75,
     "weiboFollowers": 10000000,
     "douyinFollowers": 3500000,
     "riskLevel": "低",
     "riskNote": "无重大负面",
-    "description": "创造101第二名，火箭少女成员。",
+    "description": "创造101第二名，火箭少女成员。2025年参加《乘风2025》成团出道，唱跳实力获认可。",
     "id": 2327
   },
   {
@@ -44855,12 +44862,12 @@ const CELEBRITY_DATA = [
       "辨识度"
     ],
     "recognition": 68,
-    "heat": 50,
+    "heat": 72,
     "weiboFollowers": 4000000,
     "douyinFollowers": 2000000,
     "riskLevel": "低",
     "riskNote": "无重大负面",
-    "description": "三生三世玄女出道，嘉行旗下。",
+    "description": "三生三世玄女出道，嘉行旗下。2025年参加《乘风2025》成团出道，古装扮相获关注。",
     "id": 2350
   },
   {
@@ -47432,12 +47439,12 @@ const CELEBRITY_DATA = [
       "争议性"
     ],
     "recognition": 72,
-    "heat": 55,
+    "heat": 68,
     "weiboFollowers": 6000000,
     "douyinFollowers": 2500000,
     "riskLevel": "低",
     "riskNote": "无重大负面",
-    "description": "新还珠格格欣荣格格，多部热播剧。",
+    "description": "新还珠格格欣荣格格，多部热播剧。近年参加综艺保持曝光度。",
     "id": 2448
   },
   {
@@ -52497,12 +52504,12 @@ const CELEBRITY_DATA = [
       "东北"
     ],
     "recognition": "国际级",
-    "heat": 65,
+    "heat": 80,
     "weiboFollowers": 8500000,
     "douyinFollowers": 5200000,
     "riskLevel": "低",
     "riskNote": "曾因性格争议引发讨论",
-    "description": "中国短道速滑传奇运动员，温哥华冬奥会独揽三金，以霸气直爽性格著称，退役后活跃于综艺和解说。"
+    "description": "中国短道速滑传奇运动员，温哥华冬奥会独揽三金，以霸气直爽性格著称，退役后活跃于综艺和解说。2026年参加《乘风2026》获年度人物并成团出道，与李小冉的互动成为节目热门话题。"
   },
   {
     "id": 2639,
@@ -54347,5 +54354,401 @@ const CELEBRITY_DATA = [
     "riskLevel": "低",
     "riskNote": "",
     "description": "浙江小百花越剧团一级演员，工花旦，师承吕派。因越剧《新龙门客栈》饰演金镶玉出圈，与陈丽君组成'君霄组合'登上央视春晚，推动越剧文化破圈传播。"
+  },
+  {
+    "id": 2704,
+    "name": "王珞丹",
+    "gender": "女",
+    "birthYear": 1984,
+    "region": "内地",
+    "professions": [
+      "演员"
+    ],
+    "works": [
+      "奋斗",
+      "我的青春谁做主",
+      "搜索",
+      "乘风2025"
+    ],
+    "styles": [
+      "知性",
+      "实力派",
+      "辨识度",
+      "低调"
+    ],
+    "recognition": 88,
+    "heat": 80,
+    "weiboFollowers": 50000000,
+    "douyinFollowers": 5000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1984年生于内蒙古赤峰，北京电影学院表演系毕业。2007年因《奋斗》米莱一角走红，曾被评为'四小花旦'。2013年凭《搜索》获金鸡奖最佳女配角。2025年参加《乘风2025》获年度乘风席位及队长荣誉。"
+  },
+  {
+    "id": 2705,
+    "name": "侯佩岑",
+    "gender": "女",
+    "birthYear": 1978,
+    "region": "台湾",
+    "professions": [
+      "主持人",
+      "演员"
+    ],
+    "works": [
+      "娱乐在亚洲",
+      "再见爱人",
+      "乘风2025"
+    ],
+    "styles": [
+      "知性",
+      "优雅",
+      "高情商",
+      "辨识度"
+    ],
+    "recognition": 75,
+    "heat": 72,
+    "weiboFollowers": 5000000,
+    "douyinFollowers": 2000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1978年生于台湾台北，南加利福尼亚大学毕业。2004年凭主播成名，后转型综艺主持人。因与周杰伦恋情备受关注，以高情商和知性形象著称。2025年参加《乘风2025》成团出道，表现惊艳。"
+  },
+  {
+    "id": 2706,
+    "name": "宋妍霏",
+    "gender": "女",
+    "birthYear": 1995,
+    "region": "内地",
+    "professions": [
+      "演员"
+    ],
+    "works": [
+      "锦衣夜行",
+      "一年级·大学季",
+      "穿越火线",
+      "乘风2025"
+    ],
+    "styles": [
+      "酷飒",
+      "唱跳",
+      "时尚"
+    ],
+    "recognition": 60,
+    "heat": 70,
+    "weiboFollowers": 3000000,
+    "douyinFollowers": 4000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1995年生于澳大利亚，华裔女演员。2015年因《一年级·大学季》获得关注，以酷飒风格和时尚品味著称。2025年参加《乘风2025》成团出道，舞台表现力获认可。"
+  },
+  {
+    "id": 2707,
+    "name": "张小婉",
+    "gender": "女",
+    "birthYear": 1991,
+    "region": "内地",
+    "professions": [
+      "演员",
+      "喜剧演员"
+    ],
+    "works": [
+      "快乐星球",
+      "一年一度喜剧大赛2",
+      "乘风2025"
+    ],
+    "styles": [
+      "喜剧",
+      "唱跳",
+      "辨识度"
+    ],
+    "recognition": 55,
+    "heat": 68,
+    "weiboFollowers": 1500000,
+    "douyinFollowers": 3000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1991年生于河南郑州，北京舞蹈学院音乐剧系毕业。童星出身，后与管乐组成喜剧双人组'小婉管乐'，凭《一年一度喜剧大赛2》出圈。2025年参加《乘风2025》成团出道。"
+  },
+  {
+    "id": 2708,
+    "name": "罗予彤",
+    "gender": "女",
+    "birthYear": 1994,
+    "region": "内地",
+    "professions": [
+      "演员"
+    ],
+    "works": [
+      "鳄鱼与牙签鸟",
+      "名侦探学院",
+      "乘风2025"
+    ],
+    "styles": [
+      "实力派",
+      "综艺感",
+      "辨识度"
+    ],
+    "recognition": 45,
+    "heat": 68,
+    "weiboFollowers": 1000000,
+    "douyinFollowers": 2000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1994年生于湖南湘潭，武汉大学表演专业毕业。因综艺《名侦探学院》为观众熟知，2025年参加《乘风2025》成团出道，初舞台表现亮眼。"
+  },
+  {
+    "id": 2709,
+    "name": "曾沛慈",
+    "gender": "女",
+    "birthYear": 1984,
+    "region": "台湾",
+    "professions": [
+      "歌手",
+      "演员"
+    ],
+    "works": [
+      "终极一班2",
+      "我们与恶的距离",
+      "一个人想着一个人",
+      "乘风2026"
+    ],
+    "styles": [
+      "唱功",
+      "演技",
+      "实力派"
+    ],
+    "recognition": 70,
+    "heat": 90,
+    "weiboFollowers": 3000000,
+    "douyinFollowers": 5000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1984年生于台湾台北，2007年《超级星光大道》第六名出道。2012年凭《终极一班2》雷婷一角爆红，2019年凭《我们与恶的距离》获金钟奖最佳女配角。2026年参加《乘风2026》以断层优势夺得年度总冠军并成团出道。"
+  },
+  {
+    "id": 2710,
+    "name": "李心洁",
+    "gender": "女",
+    "birthYear": 1976,
+    "region": "港台",
+    "professions": [
+      "演员",
+      "歌手"
+    ],
+    "works": [
+      "见鬼",
+      "鬼眼",
+      "自由",
+      "乘风2026"
+    ],
+    "styles": [
+      "实力派",
+      "国际范",
+      "唱功"
+    ],
+    "recognition": 72,
+    "heat": 78,
+    "weiboFollowers": 3000000,
+    "douyinFollowers": 2000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1976年生于马来西亚，华语影视女演员、歌手。1995年签约滚石唱片以歌手身份出道，2002年凭电影《见鬼》横扫金马奖、金像奖双料影后。2026年参加《乘风2026》成团出道，以歌手身份重新被大众认识。"
+  },
+  {
+    "id": 2711,
+    "name": "萧蔷",
+    "gender": "女",
+    "birthYear": 1968,
+    "region": "台湾",
+    "professions": [
+      "演员",
+      "模特"
+    ],
+    "works": [
+      "一帘幽梦",
+      "小李飞刀",
+      "侠骨丹心",
+      "乘风2026"
+    ],
+    "styles": [
+      "经典美人",
+      "辨识度",
+      "优雅"
+    ],
+    "recognition": 80,
+    "heat": 72,
+    "weiboFollowers": 3000000,
+    "douyinFollowers": 2000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1968年生于台湾新北，中国文化大学毕业。1989年以平面模特身份出道，曾被誉为'台湾第一美女'。凭《一帘幽梦》绿萍、《小李飞刀》林诗音等经典角色深入人心。2026年参加《乘风2026》成团出道，获年度乘风精神奖。"
+  },
+  {
+    "id": 2712,
+    "name": "叶一茜",
+    "gender": "女",
+    "birthYear": 1984,
+    "region": "内地",
+    "professions": [
+      "歌手",
+      "主持人"
+    ],
+    "works": [
+      "2005超级女声",
+      "爱情十二元素",
+      "乘风2026"
+    ],
+    "styles": [
+      "亲和",
+      "辨识度",
+      "唱功"
+    ],
+    "recognition": 70,
+    "heat": 65,
+    "weiboFollowers": 5000000,
+    "douyinFollowers": 3000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1984年生于福建南平，北京电影学院表演系毕业。2005年《超级女声》全国第七名出道，有'最美超女'之称。2026年参加《乘风2026》成团出道，以《听海》初舞台打破'过气'质疑。"
+  },
+  {
+    "id": 2713,
+    "name": "李小冉",
+    "gender": "女",
+    "birthYear": 1976,
+    "region": "内地",
+    "professions": [
+      "演员"
+    ],
+    "works": [
+      "像雾像雨又像风",
+      "来不及说我爱你",
+      "美好生活",
+      "乘风2026"
+    ],
+    "styles": [
+      "实力派",
+      "气质",
+      "辨识度"
+    ],
+    "recognition": 82,
+    "heat": 78,
+    "weiboFollowers": 10000000,
+    "douyinFollowers": 3000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1976年生于北京，北京舞蹈学院毕业。2000年凭《像雾像雨又像风》安琪一角获得关注，此后主演多部热播剧。2026年参加《乘风2026》成团出道并获微博高光人物，以直率性格和综艺感翻红。"
+  },
+  {
+    "id": 2714,
+    "name": "孙怡",
+    "gender": "女",
+    "birthYear": 1993,
+    "region": "内地",
+    "professions": [
+      "演员"
+    ],
+    "works": [
+      "十五年等待候鸟",
+      "因为遇见你",
+      "芈月传",
+      "乘风2026"
+    ],
+    "styles": [
+      "甜美",
+      "实力派",
+      "辨识度"
+    ],
+    "recognition": 75,
+    "heat": 75,
+    "weiboFollowers": 8000000,
+    "douyinFollowers": 4000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1993年生于吉林集安，中国内地女演员。2016年因《十五年等待候鸟》赢得关注，2017年《因为遇见你》获全国收视冠军。2026年参加《乘风2026》成团出道并获年度乘风超越奖，初舞台红裙造型出圈。"
+  },
+  {
+    "id": 2715,
+    "name": "唐艺昕",
+    "gender": "女",
+    "birthYear": 1987,
+    "region": "内地",
+    "professions": [
+      "演员"
+    ],
+    "works": [
+      "甄嬛传",
+      "军师联盟",
+      "乘风2026"
+    ],
+    "styles": [
+      "甜美",
+      "辨识度",
+      "实力派"
+    ],
+    "recognition": 80,
+    "heat": 75,
+    "weiboFollowers": 10000000,
+    "douyinFollowers": 3000000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1987年生于四川遂宁，重庆大学美视电影学院表演系毕业。2011年凭《甄嬛传》祺贵人一角崭露头角。2026年参加《乘风2026》成团出道并获年度乘风超越奖，以真诚态度和舞台表现为人瞩目。"
+  },
+  {
+    "id": 2716,
+    "name": "范玮琪",
+    "gender": "女",
+    "birthYear": 1976,
+    "region": "台湾",
+    "professions": [
+      "歌手"
+    ],
+    "works": [
+      "最初的梦想",
+      "到不了",
+      "如果的事",
+      "乘风2026"
+    ],
+    "styles": [
+      "唱功",
+      "亲和",
+      "辨识度"
+    ],
+    "recognition": 82,
+    "heat": 70,
+    "weiboFollowers": 8000000,
+    "douyinFollowers": 3000000,
+    "riskLevel": "中",
+    "riskNote": "曾因网络争议口碑波动",
+    "description": "1976年生于台湾，华语流行歌手。2000年发行首张专辑《范范的世界》出道，《最初的梦想》《到不了》《如果的事》等歌曲传唱度极高。2026年参加《乘风2026》成团出道，经历五年低谷后在舞台上重拾自信。"
+  },
+  {
+    "id": 2717,
+    "name": "徐洁儿",
+    "gender": "女",
+    "birthYear": 1978,
+    "region": "台湾",
+    "professions": [
+      "演员",
+      "歌手"
+    ],
+    "works": [
+      "海豚湾恋人",
+      "生逢灿烂的日子",
+      "媚者无疆",
+      "乘风2026"
+    ],
+    "styles": [
+      "唱作",
+      "实力派",
+      "辨识度"
+    ],
+    "recognition": 55,
+    "heat": 65,
+    "weiboFollowers": 2000000,
+    "douyinFollowers": 1500000,
+    "riskLevel": "低",
+    "riskNote": "无重大负面",
+    "description": "1978年生于台湾，2002年以创作歌手身份出道，曾为范玮琪创作《没那么爱他》。2003年因《海豚湾恋人》沈曼青一角被观众熟知，后转型内地发展。2026年参加《乘风2026》成团出道，唱跳实力获认可。"
   }
 ];
